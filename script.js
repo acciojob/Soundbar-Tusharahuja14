@@ -5,13 +5,20 @@ const sounds = ["applause", "boo", "gasp", "tada", "victory", "wrong"];
 let audioElements = {}; // Store audio elements
 
 sounds.forEach(sound => {
+    // Create button
     const button = document.createElement("button");
     button.classList.add("btn");
     button.innerText = sound;
 
-    const audio = new Audio(`sounds/${sound}.mp3`);
-    audioElements[sound] = audio; // Store the audio element
+    // Create an actual <audio> element in the DOM
+    const audio = document.createElement("audio");
+    audio.src = `sounds/${sound}.mp3`;
+    audio.setAttribute("id", sound); // Set ID for Cypress tests
+    buttonContainer.appendChild(audio); // Append <audio> to DOM
 
+    audioElements[sound] = audio; // Store the audio element in JS
+
+    // Add click event to play sound
     button.addEventListener("click", () => {
         stopAllSounds();
         audio.play();
